@@ -1,12 +1,18 @@
+:root {
+	--main-bg-blue: rgb(144, 146, 223);
+	--main-hover-blue: rgb(192, 193, 231);
+}
+
 body {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 	font-family:'Courier New', Courier, monospace;
+	background-color: rgb(247, 247, 247);
 }
 
 
-.container {
+#app {
 	width: 700px;
 	margin: 2rem auto;
 	text-align: center;
@@ -14,35 +20,42 @@ body {
 	border-radius: 10px;
 }
 
-.start-btn, .quit-btn, .restart-btn {
+.container {
+	width: 90%;
+	margin: 0 auto;
+	padding: 2rem 0;
+}
+
+.info-box {
+	display: none;
+}
+
+.start-btn, .quit-btn, .continue-btn, .next-btn {
     width: 6rem;
-	margin: 2rem;
 	padding: 0.5rem 0;
-	background-color: rgb(174, 175, 221);
+	background-color: var(--main-bg-blue);
 	border-radius: 5px;
 	border-style: none;
 	font-weight: 700;
 	cursor: pointer;
 }
 
-.start-btn:hover, .quit-btn:hover, .restart-btn:hover {
-	background-color: rgb(144, 146, 223);
-	color: white;
-}
-
-.info-box {
-	text-align: left;
+.start-btn:hover, .quit-btn:hover, .restart-btn:hover, .next-btn:hover, .answer:hover {
+	background-color: var(--main-hover-blue);
 }
 
 .info-box__list {
 	width: 80%;
 	margin: 0 auto;
+	text-align: left;
 }
-.info-box__list div {
+
+.info-box__list div, header, .question-text {
 	margin: 1rem 0;
 }
+
 .info-box__list div span {
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: 800;
 	color: crimson;
 }
@@ -51,4 +64,59 @@ body {
 	display: flex;
 	justify-content: center;
 	padding: 1rem 0;
+}
+
+.quiz-box {
+	text-align: left;
+}
+
+.answer {
+	margin: 0.5rem 0;
+	padding: 10px 10px 10px 5px;
+	border: solid 1px var(--main-bg-blue);
+	border-radius: 10px;
+	text-transform: capitalize;
+	cursor: pointer;
+}
+
+.fa-check {
+	color: green;
+}
+
+.fa-times {
+	color: red
+}
+
+.quiz-box__timer {
+	padding: 0.5rem;
+	background-color: var(--main-bg-blue);
+	border-radius: 5px;
+}
+
+.timer__text {
+	padding-right: 10px;
+}
+
+.timer__time {
+	padding: 10px;
+	font-size: 18px;
+	font-weight: 700;
+	background-color: white;
+	border-radius: 5px;
+}
+
+footer, header, .answer, .quiz-box__timer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.total-questions span {
+	display: flex;
+	user-select: none;
+}
+
+.total-questions span p:nth-child(2n+1) {
+	font-weight: 600;
+	padding: 0 5px;
 }
