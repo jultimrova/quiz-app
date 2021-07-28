@@ -1,0 +1,54 @@
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family:'Courier New', Courier, monospace;
+}
+
+
+.container {
+	width: 700px;
+	margin: 2rem auto;
+	text-align: center;
+	background-color: rgb(255, 254, 189);
+	border-radius: 10px;
+}
+
+.start-btn, .quit-btn, .restart-btn {
+    width: 6rem;
+	margin: 2rem;
+	padding: 0.5rem 0;
+	background-color: rgb(174, 175, 221);
+	border-radius: 5px;
+	border-style: none;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.start-btn:hover, .quit-btn:hover, .restart-btn:hover {
+	background-color: rgb(144, 146, 223);
+	color: white;
+}
+
+.info-box {
+	text-align: left;
+}
+
+.info-box__list {
+	width: 80%;
+	margin: 0 auto;
+}
+.info-box__list div {
+	margin: 1rem 0;
+}
+.info-box__list div span {
+	font-size: 20px;
+	font-weight: 800;
+	color: crimson;
+}
+
+.buttons {
+	display: flex;
+	justify-content: center;
+	padding: 1rem 0;
+}
