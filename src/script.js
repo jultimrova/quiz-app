@@ -91,6 +91,7 @@ const question = `
 `
 
 // * Create quiz footer
+
 const footer = document.createElement('footer')
 const total = `
 	<div class='total-questions'>
@@ -98,6 +99,21 @@ const total = `
 	</div>
 	<button class='next-btn'>Next</button>
 `
+// * Create result container
+const resultBox = `
+	<div class='result-box'>
+		<div class='icon'><i class='fas fa-crown'></i></div>
+		<h3 class='result-box__text'>You are completed the Quiz</h3>
+		<div class='result-box__score'>
+			<span><p>You got</p><p>2</p><p>out of</p><p>35</p></span>
+		</div>
+		<div class='buttons'>
+			<button class='restart-btn'>Restart Quiz</button>
+			<button class='quit-btn'>Quit Quiz</button>
+		</div>
+	</div>
+`
+
 app.append(container)
 container.append(startQuizButton)
 //info
@@ -119,3 +135,5 @@ quizBox.insertAdjacentHTML('beforeend', question)
 //footer
 container.append(footer)
 footer.insertAdjacentHTML('beforeend', total)
+//result
+container.insertAdjacentHTML('beforeend', resultBox)

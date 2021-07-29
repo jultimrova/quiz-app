@@ -11,7 +11,6 @@ body {
 	background-color: rgb(247, 247, 247);
 }
 
-
 #app {
 	width: 700px;
 	margin: 2rem auto;
@@ -26,11 +25,7 @@ body {
 	padding: 2rem 0;
 }
 
-.info-box {
-	display: none;
-}
-
-.start-btn, .quit-btn, .continue-btn, .next-btn {
+.start-btn, .quit-btn, .continue-btn, .next-btn, .restart-btn {
     width: 6rem;
 	padding: 0.5rem 0;
 	background-color: var(--main-bg-blue);
@@ -40,7 +35,22 @@ body {
 	cursor: pointer;
 }
 
-.start-btn:hover, .quit-btn:hover, .restart-btn:hover, .next-btn:hover, .answer:hover {
+.buttons {
+	display: flex;
+	justify-content: center;
+	padding: 1rem 0;
+}
+
+.buttons button:first-child {
+	margin-right: 1rem;
+}
+
+.start-btn:hover, 
+.quit-btn:hover, 
+.restart-btn:hover, 
+.next-btn:hover, 
+.answer:hover, 
+.restart-btn:hover {
 	background-color: var(--main-hover-blue);
 }
 
@@ -58,12 +68,6 @@ body {
 	font-size: 18px;
 	font-weight: 800;
 	color: crimson;
-}
-
-.buttons {
-	display: flex;
-	justify-content: center;
-	padding: 1rem 0;
 }
 
 .quiz-box {
@@ -85,6 +89,12 @@ body {
 
 .fa-times {
 	color: red
+}
+
+.fa-crown {
+	margin-bottom: 1rem;
+	font-size: 50px;
+	color: var(--main-bg-blue)
 }
 
 .quiz-box__timer {
@@ -111,12 +121,20 @@ footer, header, .answer, .quiz-box__timer {
 	justify-content: space-between;
 }
 
-.total-questions span {
+.total-questions span, .result-box__score span {
 	display: flex;
 	user-select: none;
 }
 
-.total-questions span p:nth-child(2n+1) {
+.result-box__score span {
+	justify-content: center;
+}
+
+.total-questions span p:nth-child(2n+1), .result-box__score span p:nth-child(2n) {
 	font-weight: 600;
 	padding: 0 5px;
+}
+
+.info-box, .quiz-box, footer, .start-btn {
+	display: none;
 }
