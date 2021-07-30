@@ -1,6 +1,6 @@
 :root {
-	--main-bg-blue: rgb(144, 146, 223);
-	--main-hover-blue: rgb(192, 193, 231);
+	--main-bg-blue: rgba(144, 147, 223, 0.753);
+	--main-hover-blue: rgba(160, 162, 207, 0.815);
 }
 
 body {
@@ -107,12 +107,38 @@ body {
 	cursor: pointer;
 }
 
-.fa-check {
-	color: green;
+.answer.disabled {
+	pointer-events: none;
 }
 
-.fa-times {
-	color: red
+.answer.correct {
+	color: rgb(1, 66, 1);
+	background-color: rgba(36, 170, 18,0.267);
+	border-color: rgb(116, 180, 20);
+}
+
+.answer.wrong {
+	color: rgb(66, 1, 1);
+	background-color: rgba(255, 0, 0, 0.267);
+	border-color: rgb(194, 16, 16);
+}
+
+.answer .fa-check {
+	width: 16px;
+	height: 16px;
+	padding: 0.2rem 0.2rem;
+	color: green;
+	border: 3px solid green;
+	border-radius: 50%;
+}
+
+.answer .fa-times {
+	width: 16px;
+	height: 16px;
+	padding: 0.2rem 0.2rem;
+	color: red;
+	border: 3px solid red;
+	border-radius: 50%;
 }
 
 .fa-crown {

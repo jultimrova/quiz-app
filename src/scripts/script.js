@@ -129,6 +129,8 @@ quizFooter.classList.add('hide')
 const result = document.querySelector('.result-box')
 result.classList.add('hide')
 
+const answerList = document.querySelector('.answer-list')
+
 const startQuiz = document.querySelector('.start-btn').onclick = () => {
 	info.classList.remove('hide')
 	info.classList.add('visible')
@@ -169,8 +171,8 @@ const nextQuestion = document.querySelector('.next-btn').onclick = () => {
 
 function showQuestions(id) {
 	const questionText = document.querySelector('.question__text')
-	const answerList = document.querySelector('.answer-list')
 	let questionTag = `<h3> ${questions[id].question} </h3>`
+
 	questionText.innerHTML = questionTag
 	showAnswers()
 
@@ -184,11 +186,45 @@ function showQuestions(id) {
 		answerList.innerHTML = ''
 		answerList.insertAdjacentHTML('beforeend', answer)
 	}
+
+	const answers = document.querySelectorAll('.answer')
+	for (let i = 0; i < answers.length; i++) {
+		answers[i].setAttribute('onclick', 'answerSelected(this)')
+		console.log(answers[i])
+	}
 }
 
 function questionCounter(id) {
 	const botQuestionCounter = document.querySelector('.total-questions')
 	const totalCount = `<span><p>${id}</p><p>of</p><p>${TOTAL_QUESTIONS}</p><p>Questions</p></span>`
 	botQuestionCounter.innerHTML = totalCount
+}
+
+function answerSelected(answer) {
+	const userAnswer = answer.textContent
+	const correctAnswer = questions[questionCount].correctAnswer
+	const numberOfAnswers = answerList.children.length
+	const check = `<div class='icon'><i class='fas fa-check'></i></div>`
+	const cross = `<div class='icon'><i class='fas fa-times'></i></div>`
+
+	if (userAnswer === correctAnswer) {
+
+		answer.classList.add('correct')
+		answer.insertAdjacentHTML('beforeend', check)
+	} else {
+		answer.classList.add('wrong')
+		answer.insertAdjacentHTML('beforeend', cross)
+
+		for (let i = 0; i < numberOfAnswers; i++) {
+			if (answerList.children[i].textContent === correctAnswer) {
+				answerList.children[i].setAttribute('class', 'answer correct')
+				answerList.children[i].insertAdjacentHTML('beforeend', check)
+			}
+		}
+	}
+
+	for (let i = 0; i < numberOfAnswers; i++) {
+		answerList.children[i].classList.add('disabled')
+	}
 }
 
