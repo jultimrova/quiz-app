@@ -98,6 +98,10 @@ body {
 	height: 4rem;
 }
 
+.answer-list {
+	height: 60%;
+}
+
 .answer {
 	margin: 0.5rem 0;
 	padding: 10px 10px 10px 5px;
@@ -184,8 +188,4 @@ footer, header, .answer, .quiz-box__timer {
 .total-questions span p:nth-child(2n+1), .result-box__score span p:nth-child(2n) {
 	font-weight: 600;
 	padding: 0 5px;
-}
-
-.hide {
-	display: none;
 }

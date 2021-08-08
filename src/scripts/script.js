@@ -1,6 +1,10 @@
-const TIME = 15
 const TOTAL_QUESTIONS = questions.length
 const RANDOM_QUESTION = Math.floor(Math.random() * (TOTAL_QUESTIONS))
+
+let questionCount = 0
+let questionNumber = 1
+let counter
+let timeValue = 15
 
 const app = document.getElementById('app')
 const container = document.createElement('div')
@@ -36,7 +40,7 @@ restartButton.classList.add('continue-btn')
 restartButton.innerHTML = 'Continue'
 
 const infoText = `
-	<div>1. You will have only <span>${TIME} seconds</span> per each question.</div>
+	<div>1. You will have only <span>${timeValue} seconds</span> per each question.</div>
 	<div>2. Once you select your answer, it can't be undone.</div>
 	<div>3. You can't select any option once time goes off</div>
 	<div>4. You can't exit from the Quiz while you're playing.</div>
@@ -62,7 +66,7 @@ timerText.innerHTML = 'Time left'
 
 const time = document.createElement('div')
 time.classList.add('timer__time')
-time.innerHTML = `${TIME}`
+time.innerHTML = `${timeValue}`
 
 const question = `
 	<section>
@@ -118,45 +122,42 @@ footer.insertAdjacentHTML('beforeend', total)
 container.insertAdjacentHTML('beforeend', resultBox)
 
 const info = document.querySelector('.info-box')
-info.classList.add('hide')
+info.hidden = true
 
 const quiz = document.querySelector('.quiz-box')
-quiz.classList.add('hide')
+quiz.hidden = true
 
 const quizFooter = document.querySelector('footer')
-quizFooter.classList.add('hide')
+quizFooter.hidden = true
 
 const result = document.querySelector('.result-box')
-result.classList.add('hide')
+result.hidden = true
+
+const nextBtn = document.querySelector('.next-btn')
+nextBtn.hidden = true
 
 const answerList = document.querySelector('.answer-list')
+const timeCount = document.querySelector('.timer__time')
 
 const startQuiz = document.querySelector('.start-btn').onclick = () => {
-	info.classList.remove('hide')
-	info.classList.add('visible')
-	startQuizButton.classList.add('hide')
+	info.hidden = false
+	startQuizButton.hidden = true
 }
 
 const exitQuiz = document.querySelector('.quit-btn').onclick = () => {
-	info.classList.remove('visible')
-	info.classList.add('hide')
-	startQuizButton.classList.remove('hide')
+	info.hidden = true
+	startQuizButton.hidden = false
 }
 
 const continueQuiz = document.querySelector('.continue-btn').onclick = () => {
-	info.classList.remove('visible')
-	info.classList.add('hide')
-	quiz.classList.remove('hide')
-	quiz.classList.add('visible')
-	quizFooter.classList.remove('hide')
-	quizFooter.classList.add('visible')
+	info.hidden = true
+	quiz.hidden = false
+	quizFooter.hidden = false
 
 	showQuestions(questionCount)
 	questionCounter(questionNumber)
+	startTimer(timeValue)
 }
-
-let questionCount = 0
-let questionNumber = 1
 
 const nextQuestion = document.querySelector('.next-btn').onclick = () => {
 	if (questionCount < TOTAL_QUESTIONS - 1) {
@@ -164,6 +165,8 @@ const nextQuestion = document.querySelector('.next-btn').onclick = () => {
 		questionNumber++
 		showQuestions(questionCount)
 		questionCounter(questionNumber)
+		clearInterval(counter)
+		startTimer(timeValue)
 	} else {
 		console.log('no more questions')
 	}
@@ -174,7 +177,9 @@ function showQuestions(id) {
 	let questionTag = `<h3> ${questions[id].question} </h3>`
 
 	questionText.innerHTML = questionTag
+	nextBtn.hidden = false
 	showAnswers()
+	nextBtn.style.display = 'none'
 
 	function showAnswers() {
 		let answer = ''
@@ -201,6 +206,7 @@ function questionCounter(id) {
 }
 
 function answerSelected(answer) {
+	clearInterval(counter)
 	const userAnswer = answer.textContent
 	const correctAnswer = questions[questionCount].correctAnswer
 	const numberOfAnswers = answerList.children.length
@@ -208,7 +214,6 @@ function answerSelected(answer) {
 	const cross = `<div class='icon'><i class='fas fa-times'></i></div>`
 
 	if (userAnswer === correctAnswer) {
-
 		answer.classList.add('correct')
 		answer.insertAdjacentHTML('beforeend', check)
 	} else {
@@ -223,8 +228,20 @@ function answerSelected(answer) {
 		}
 	}
 
+	// * when answer selected, disable all other options
 	for (let i = 0; i < numberOfAnswers; i++) {
 		answerList.children[i].classList.add('disabled')
 	}
+	nextBtn.style.display = 'block'
 }
 
+function startTimer(time) {
+	counter = setInterval(timer, 1000)
+	function timer() {
+		timeCount.textContent = time
+		time--
+		if (time < 0) {
+			clearInterval(counter)
+		}
+	}
+}
