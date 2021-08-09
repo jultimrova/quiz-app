@@ -1,10 +1,11 @@
 const TOTAL_QUESTIONS = questions.length
 const RANDOM_QUESTION = Math.floor(Math.random() * (TOTAL_QUESTIONS))
 
+let timeValue = 15
 let questionCount = 0
 let questionNumber = 1
 let counter
-let timeValue = 15
+let userScore = 0
 
 const app = document.getElementById('app')
 const container = document.createElement('div')
@@ -87,9 +88,7 @@ const resultBox = `
 	<div class='result-box'>
 		<div class='icon'><i class='fas fa-crown'></i></div>
 		<h3 class='result-box__text'>You are completed the Quiz</h3>
-		<div class='result-box__score'>
-			<span><p>You got</p><p>2</p><p>out of</p><p>${TOTAL_QUESTIONS}</p></span>
-		</div>
+		<div class='result-box__score'></div>
 		<div class='buttons'>
 			<button class='restart-btn'>Restart Quiz</button>
 			<button class='quit-btn'>Quit Quiz</button>
@@ -138,6 +137,11 @@ nextBtn.hidden = true
 
 const answerList = document.querySelector('.answer-list')
 const timeCount = document.querySelector('.timer__time')
+const totalQuestions = document.querySelector('.total-questions')
+const resultScore = document.querySelector('.result-box__score')
+const timeOff = document.querySelector('.timer__text')
+const check = `<div class='icon'><i class='fas fa-check'></i></div>`
+const cross = `<div class='icon'><i class='fas fa-times'></i></div>`
 
 const startQuiz = document.querySelector('.start-btn').onclick = () => {
 	info.hidden = false
@@ -167,9 +171,36 @@ const nextQuestion = document.querySelector('.next-btn').onclick = () => {
 		questionCounter(questionNumber)
 		clearInterval(counter)
 		startTimer(timeValue)
+		timeOff.textContent = 'Time Left'
 	} else {
+		clearInterval(counter)
 		console.log('no more questions')
+		nextBtn.style.display = 'none'
+		totalQuestions.hidden = true
+		showResult()
 	}
+}
+
+const quitQuiz = document.querySelector('.result-box .buttons .quit-btn').onclick = () => {
+	window.location.reload()
+}
+
+const restartQuiz = document.querySelector('.restart-btn').onclick = () => {
+	timeValue = 15
+	questionCount = 0
+	questionNumber = 1
+	counter = 0
+	userScore = 0
+	quiz.hidden = false
+	quizFooter.hidden = true
+	result.hidden = true
+	totalQuestions.hidden = false
+	showQuestions(questionCount)
+	questionCounter(questionNumber)
+	clearInterval(counter)
+	startTimer(timeValue)
+	nextBtn.style.display = 'none'
+	timeOff.textContent = 'Time Left'
 }
 
 function showQuestions(id) {
@@ -199,6 +230,24 @@ function showQuestions(id) {
 	}
 }
 
+function showResult() {
+	let scoreText = ''
+	info.hidden = true
+	quiz.hidden = true
+	result.hidden = false
+
+	if (userScore < 0) userScore = 0
+
+	if (userScore > 1) {
+		scoreText = `<span><p>You got</p><p>${userScore}</p><p>out of</p><p>${TOTAL_QUESTIONS}</p></span>`
+	} else if (userScore === 0) {
+		scoreText = `<span><p>Sorry but you got</p><p>${userScore}</p><p>out of</p><p>${TOTAL_QUESTIONS}</p></span>`
+	} else if (userScore === TOTAL_QUESTIONS) {
+		scoreText = `<span><p>Congratulations you got</p><p>${userScore}</p><p>out of</p><p>${TOTAL_QUESTIONS}</p></span>`
+	}
+	resultScore.innerHTML = scoreText
+}
+
 function questionCounter(id) {
 	const botQuestionCounter = document.querySelector('.total-questions')
 	const totalCount = `<span><p>${id}</p><p>of</p><p>${TOTAL_QUESTIONS}</p><p>Questions</p></span>`
@@ -210,12 +259,12 @@ function answerSelected(answer) {
 	const userAnswer = answer.textContent
 	const correctAnswer = questions[questionCount].correctAnswer
 	const numberOfAnswers = answerList.children.length
-	const check = `<div class='icon'><i class='fas fa-check'></i></div>`
-	const cross = `<div class='icon'><i class='fas fa-times'></i></div>`
 
 	if (userAnswer === correctAnswer) {
 		answer.classList.add('correct')
 		answer.insertAdjacentHTML('beforeend', check)
+		userScore += 1
+		console.log(userScore)
 	} else {
 		answer.classList.add('wrong')
 		answer.insertAdjacentHTML('beforeend', cross)
@@ -229,6 +278,7 @@ function answerSelected(answer) {
 	}
 
 	// * when answer selected, disable all other options
+
 	for (let i = 0; i < numberOfAnswers; i++) {
 		answerList.children[i].classList.add('disabled')
 	}
@@ -241,7 +291,23 @@ function startTimer(time) {
 		timeCount.textContent = time
 		time--
 		if (time < 0) {
+			const correctAnswer = questions[questionCount].correctAnswer
+			const numberOfAnswers = answerList.children.length
 			clearInterval(counter)
+			timeOff.textContent = 'Time Off'
+			userScore -= 1
+
+			for (let i = 0; i < numberOfAnswers; i++) {
+				if (answerList.children[i].textContent === correctAnswer) {
+					answerList.children[i].setAttribute('class', 'answer correct')
+					answerList.children[i].insertAdjacentHTML('beforeend', check)
+				}
+			}
+
+			for (let i = 0; i < numberOfAnswers; i++) {
+				answerList.children[i].classList.add('disabled')
+			}
+			nextBtn.style.display = 'block'
 		}
 	}
 }

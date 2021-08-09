@@ -1,4 +1,4 @@
-let questions = [
+const questions = [
 	{
 		id: 1,
 		question: "\"Long ago, the four nations lived together in harmony. Then, everything changed when ________ attacked.\"",
